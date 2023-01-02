@@ -1,4 +1,4 @@
-if ('serviceworker' in navigator) {
+if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js');
     console.log('Registered');
 }
