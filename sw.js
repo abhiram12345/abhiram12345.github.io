@@ -12,4 +12,5 @@ self.addEventListener('install', (e) =>{
 		     await cache.addAll(appShellFiles); 
 		}
     )());
+    console.log('Installed');
 });
