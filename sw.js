@@ -3,7 +3,7 @@ const appShellFiles = [
     '/index.html',
     '/js/my-script.js',
     '/js/components.js',
-    'css/mystyle.css'
+    '/css/mystyle.css'
 ];
 self.addEventListener('install', (e) =>{
 	e.waitUntil((
