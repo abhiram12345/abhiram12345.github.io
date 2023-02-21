@@ -143,6 +143,9 @@ const main = (() => {
         observer = new IntersectionObserver(loadMore, options);
 		const loadItems = (key) =>{
 			let loaded = 0;
+			const dbConnection = window.indexedDB.open('shelfo_db', 11);
+			dbConnection.success = e =>{
+		        const db = e.target.result;
 			const transaction= db.transaction(['items', 'categories'], 'readonly');
             const itemsStore = transaction.objectStore('items');
             const categoryStore = transaction.objectStore('categories');
@@ -173,6 +176,7 @@ const main = (() => {
 			        }
 		        }
 	        }
+	    }
         };
         loadItems(null);
 		const bttn = document.createElement('add-button');
