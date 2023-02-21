@@ -144,7 +144,7 @@ const main = (() => {
 		const loadItems = (key) =>{
 			let loaded = 0;
 			const dbConnection = window.indexedDB.open('shelfo_db', 11);
-			dbConnection.success = e =>{
+			dbConnection.onsuccess = e =>{
 		        const db = e.target.result;
 			const transaction= db.transaction(['items', 'categories'], 'readonly');
             const itemsStore = transaction.objectStore('items');
