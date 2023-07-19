@@ -1,3 +1,220 @@
+import {onNavigate, navigate} from './functions.js';
+class HeaderBar extends HTMLElement {
+	constructor() {
+		super();
+		const template = document.createElement('template');
+		template.innerHTML = `
+		   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+		    <style>
+			    header{
+			        position:fixed;
+			        display:flex;
+		            justify-content:space-between;
+		            align-items:center;
+		            height:70px;
+			        color:#303030;
+			        background-color:#F0F8FF;
+			        top:0;
+			        right:0;
+			        left:300px;
+			        box-shadow:0 2px 10px lightgray;
+			        overflow:hidden;
+			        text-align:left;
+			    }
+			    .icons {
+				   display:flex;
+				   align-items:center;
+				}
+				.icons * {
+					margin:0 15px;
+				}
+                .search-shelf{
+				    display:flex;
+				    color:gray;
+				    align-items:center;
+				    justify-content:space-between;
+				    border:1.5px solid lightgray;
+				    border-radius:5px;
+				    flex-basis:250px;
+				    padding:5px;
+				    background-color:#ffffff;
+				    font-size:12px;
+				    margin-left:15px;
+				}
+				.search-shelf input[type="text"]{
+				    border-radius:5px;
+				    border:none;
+				    outline:none;
+				    background-color:transparent;
+				}
+				.search-shelf input::placeholder{
+					color:#303030;
+				}
+				.search-shelf button{
+				    border:none;
+				    background-color:transparent;
+				    color:black;
+				}
+		    </style>
+		    <header>
+		     <div>
+	            <div class="search-shelf">
+			    <input type="text" placeholder="Search shelf">
+			    <button>
+			    <span class="material-symbols-rounded">search</a>
+			    </button>
+			    </div>
+            </div>
+            <div class="icons">
+	            <span class="material-symbols-rounded">notifications</span>
+	            <span class="material-symbols-rounded">menu</span>
+            </div>
+            </header>`;
+            this.attachShadow({mode:'open'});
+		    this.shadowRoot.append(template.content.cloneNode(true));
+	}
+}
+class HeaderBar2 extends HTMLElement {
+	constructor() {
+		super();
+		const template = document.createElement('template');
+		template.innerHTML = `
+		    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+		    <style>
+		        header{
+			        position:fixed;
+			        display:flex;
+		            justify-content:space-between;
+		            align-items:center;
+		            height:70px;
+			        color:#000000;
+			        background-color:#F0F8FF;
+			        top:0;
+			        right:0;
+			        left:300px;
+			        box-shadow:0 2px 10px lightgray;
+			        overflow:hidden;
+					z-index:1;
+			    }
+			    div{
+				   display:flex;
+				   align-items:center;
+				}
+				div * {
+					margin:0 15px;
+				}
+		    </style>
+		    <header>
+		     <div>
+	            <span class="material-symbols-rounded back-button">keyboard_backspace</span>
+	            <h2></h2>
+            </div>
+            <div>
+	            <span class="material-symbols-rounded">search</span>
+	            <span class="material-symbols-rounded">notifications</span>
+            </div>
+            </header>
+		`;
+		this.attachShadow({mode:'open'});
+		this.shadowRoot.appendChild(template.content.cloneNode(true));
+	}
+	connectedCallback() {
+		this.shadowRoot.querySelector('h2').innerText = this.hasAttribute('data-title') ? this.getAttribute('data-title') : '';
+        this.shadowRoot.querySelector('.back-button').addEventListener('click', ()=> {
+		    history.back();
+		});
+	}
+}
+class SideBar extends HTMLElement {
+	constructor() {
+		super();
+		const template = document.createElement('template');
+		template.innerHTML = `
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+		<style>
+		    .my-details{
+				background-color:rgb(88, 166, 88);
+				padding:10px 8px 8px 8px;
+				margin:20px;
+				width:60%;
+				border-radius:5px;
+				font-size:15px;
+			}
+			.my-details p{
+                display:flex;
+				align-items:center;
+			}
+			.my-details *{
+                margin:2px;
+			}
+		    .menu-container{
+			    position:fixed;
+			    padding-top:10px;
+			    width:300px;
+				overflow:hidden;
+			    top:0;
+			    left:0;
+			    background-color:#303030;
+			    color:#707070;
+			    height:100%;
+			    z-index:2;
+				font-family: Arial, Helvetica, sans-serif;
+				color:white;
+			}
+			.menu{
+			    margin:auto;
+			}
+			.menu h3{
+			    font-weight:500;
+			    margin:20px 30px;
+			}
+			.menu span{
+				display:block;
+				margin:10px 30px;
+				width:150px;
+				font-size:16px;
+				color:#B8B8B8;
+			}
+			.menu .short-cut{
+			    background-color:#4169e1;
+			    color:white;
+			    padding:5px;
+			    border-radius:5px;
+			}
+			.menu .current-short-cut{
+				background-color:green;
+			}
+			.menu .current{
+				color:#ffffff;
+			}
+		</style>
+        <section class="menu-container">
+		<div class="my-details">
+		<h4>New Ideal</h4>
+		<p><span class="material-symbols-rounded">
+		location_on
+		</span><span>Thottuvakkom</span></P>
+		</div>
+	    <div class="menu">
+	    <!--Items-->
+	    <div class="menu-sections">
+	    <span data-link="/">Items</span>
+	    <span data-link="/outofstock">Out of stock</span>
+	    <span data-link="/new-order">New Order</span>
+	    <span data-link="/manage-items">Manage Items</span>
+	    </div>
+	    </div>
+	    </section>`;
+		this.attachShadow({mode:'open'});
+		this.shadowRoot.append(template.content.cloneNode(true));
+	}
+	connectedCallback(){
+		const links = this.shadowRoot.querySelectorAll('span');
+		for (const link of links) {
+			link.addEventListener('click', onNavigate);
+		}
+	}
+}
 class EmptyMessage extends HTMLElement {
 	constructor() {
 		super();
@@ -6,13 +223,14 @@ class EmptyMessage extends HTMLElement {
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 	    <style>
 	        div{
+				width:100%;
 	            display:flex;
 	            flex-direction:column;
 	            justify-content:center;
 	            align-items:center;
+				height:100vh;
 	        }
 	        span{
-	            margin-top:200px;
 	            background-image:linear-gradient(green, blue);
 	            -webkit-background-clip:text;
 	            -webkit-text-fill-color:transparent;
@@ -38,7 +256,6 @@ class EmptyMessage extends HTMLElement {
 		this.shadowRoot.querySelector('p').innerText = this.getAttribute('message');
 	}
 }
-
 class GridMenu extends HTMLElement {
 	constructor() {
 		super();
@@ -99,29 +316,36 @@ class AddButton extends HTMLElement {
 		const template = document.createElement('template');
 		template.innerHTML = `
 	    <style>
-	    div {
+		div{
+			margin:auto;
+			width:300px;
+			box-sizing:border-box;
+		}
+	    button {
 		    --padding:10px;
 		    background-color:darkorange;
 		    color:white;
-		    margin:auto;
-		    width:30%;
+		    width:300px;
 		    padding:var(--padding);
 		    border-radius:50px;
 		    text-align:center;
 		    position:fixed;
 		    bottom:25px;
-		    left:50%;
-		    transform:translateX(-50%);
+			border:none;
+			box-sizing:border-box;
+        }
+		button:disabled{
+			opacity:0.8;
 		}
 		</style>
-		<div>Add</div>`;
+		<div><button>Add</button></div>`;
 		this.attachShadow({mode:'open'});
 		this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
     connectedCallback() {
-    	this.shadowRoot.querySelector('div').textContent = this.hasAttribute('text') ? this.getAttribute('text') : 'Add';
+    	this.shadowRoot.querySelector('button').textContent = this.hasAttribute('text') ? this.getAttribute('text') : 'Add';
         if (this.hasAttribute('padding')) {
-        	this.shadowRoot.querySelector('div').style.setProperty('--padding', this.getAttribute('padding'));
+        	this.shadowRoot.querySelector('button').style.setProperty('--padding', this.getAttribute('padding'));
         }
     }
 } 
@@ -190,6 +414,13 @@ class AddData extends HTMLElement {
     get validity() {
     	return this.shadowRoot.querySelector('input').checkValidity();
     }
+	onEnter(callback){
+        this.shadowRoot.querySelector('input').addEventListener('keypress', (e)=>{
+			if (e.key == 'Enter') {
+				callback();
+			}
+		});
+	}
 }
 class AddNumber extends HTMLElement {
 	constructor() {
@@ -532,6 +763,7 @@ class ItemBlock extends HTMLElement {
 			if (p.value) {
 			    parent.appendChild(span);
 			}
+			else{alert('hi')}
         });
 	}
 }
@@ -700,52 +932,46 @@ class ItemView extends HTMLElement {
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 		<style>
 		.container{
+		    background-color:white;
+		    font-size:14px;
+		    color:#303030;
+		    width:80%;
+		    padding:10px;
+		    box-shadow:0 1px 10px lightgray;
 		    margin:auto;
-            position:relative;
-            width:85%;
-            border-radius:12px;
-            box-shadow:0 1px 10px lightgray;
-            padding:20px;
-            font-size:15px;
-            color:#303030;
-            height:200px;
+		    padding:20px;
+		}
+		p{
+			color:#808080;
 		}
 		.edit{
 			float:right;
-			color:darkorange;
+			color:#E26868;
+			background-color:#EDEDED;
+			padding:5px;
+			border-radius:5px;
 		}
 		.item-name{
-		    font-weight:bold;
 		    clear:both;
-		}
-		.button-section{
-		    display:flex;
-		    align-items:center;
-		    justify-content:center;
-		}
-		button{
-		    border:none;
-		    background-color:darkorange;
-		    padding:15px;
-		    color:white;
-		    border-radius:5px;
-		    margin:10px;
+	    }
+	   span{
+			display:inline-block;
+			color:blue;
+			padding:5px 10px;
+			border:1px solid #0081C9;
+			border-radius:50px;
+			font-size:14px;
+			box-sizing:border-box;
+			margin:3px 3px 3px 0;
+			background-color:#bbd0f7;
 		}
 		</style>
 		<div class="container">
-		<div class="edit">
-            <span class="material-symbols-rounded">
-edit
-</span>
-        </div>
-       <p class="item-name"></p>
+		<div class="edit"><strong>Edit</strong></div>
+       <h2 class="item-name"></h2>
        <p class="item-price"></p>
        <p class="item-stock"></p>
-       </div>
-       <br>
-       <div class="button-section">
-       <button class="decrease-stock" data-mode="decrease">Stock -</button>
-       <button class="increase-stock" data-mode="increase">Stock +</button>
+       <p class = "item-category"></p>
        </div>`;
        this.attachShadow({mode:'open'});
        this.shadowRoot.append(template.content.cloneNode(true));
@@ -754,9 +980,11 @@ edit
 		const item = this.shadowRoot.querySelector('.item-name');
 		const price = this.shadowRoot.querySelector('.item-price');
         const stock = this.shadowRoot.querySelector('.item-stock');
+        const category = this.shadowRoot.querySelector('.item-category');
         item.innerText = this.hasAttribute('data-item-name') ? this.getAttribute('data-item-name') : 'Not Found';
         price.innerText = this.hasAttribute('data-price') ? `Price : ${this.getAttribute('data-price')}` : 'Not Found';
         stock.innerText = this.hasAttribute('data-stock') ? `Stock : ${this.getAttribute('data-stock')}` : 'Not Found';
+        category.innerText = this.hasAttribute('data-category') ? `Category : ${this.getAttribute('data-category')}` : '';
 	}
 	static get observedAttributes() {
     	return ['data-stock'];
@@ -764,7 +992,321 @@ edit
     attributeChangedCallback(name, oldValue, newValue) {
     	this.shadowRoot.querySelector('.item-stock').innerText = `Stock : ${this.getAttribute('data-stock')}`;
     }
+    showProperties(...properties) {
+		const parent = this.shadowRoot.querySelector('.container');
+		properties.forEach(p =>{
+			if (p.value) {
+				const span = document.createElement('span');
+				span.innerText = `${p.name} : ${p.value}`;
+				parent.appendChild(span);
+			}
+        });
+	}
+	get editButton() {
+		return this.shadowRoot.querySelector('.edit');
+	}
 }
+//foot notifiacation
+class FootNotification extends HTMLElement {
+	constructor() {
+		super();
+		const template = document.createElement('template');
+		template.innerHTML = `
+		    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+		    <style>
+		        div{
+			        display:flex;
+			        position:absolute;
+			        overflow:hidden;
+			        padding:0 20px;
+			        background-color:green;
+			        color:#F6FBF4;
+			        justify-content:space-between;
+			        align-items:center;
+			        height:60px;
+			        transition:height 1s;
+			        left:0;
+			        right:0;
+		            bottom:0;
+		            z-index:1;
+                }
+                p{
+                	flex-basis:60%;
+                    opacity:1;
+                    transition:opacity 0.5s;
+                }
+                span{
+                	opacity:1;
+                	transition:opacity 1s;
+                    display:none;
+                }
+            </style>
+            <div>
+                <p></p>
+                <span><b></b></span>
+            </div>
+        `;
+        this.attachShadow({mode:'open'});
+        this.shadowRoot.append(template.content.cloneNode(true));
+	}
+	connectedCallback() {
+		const messageBody = this.shadowRoot.querySelector('p');
+		messageBody.innerText = this.hasAttribute('data-message') ? this.getAttribute('data-message') : '';
+		setTimeout(() =>{
+			this.shadowRoot.querySelector('p').style.opacity = '0.1';
+			this.shadowRoot.querySelector('span').style.opacity = '0.1'; 
+			this.shadowRoot.querySelector('div').style.height = 0;
+			setTimeout(()=> {
+				this.remove();
+			}, 1000);
+        }, 5000);
+	}
+}
+class RoundedButton2 extends HTMLElement {
+	constructor(){
+		super();
+		const template = document.createElement('template');
+	    template.innerHTML = `
+	        <style>
+	            button{
+		            display:block;
+		            text-align:center;
+		            width:180px;
+		            color:white;
+		            padding:14px;
+		            border-radius:25px;
+		            border:none;
+		            margin:auto;
+		            background-color:darkorange;
+		            font-size:15px;
+		        }
+	        </style>
+	        <button></button>`;
+	   this.attachShadow({mode:'open'});
+	   this.shadowRoot.append(template.content.cloneNode(true));
+	}
+	connectedCallback() {
+		const button = this.shadowRoot.querySelector('button');
+		if (this.hasAttribute('data-text')) {
+			button.innerText = this.getAttribute('data-text');
+		}
+		if (this.hasAttribute('data-bg-color')) {
+			button.style.backgroundColor = this.getAttribute('data-bg-color');
+		}
+	}
+}
+//tabs
+class Tabs extends HTMLElement{
+	constructor(){
+		super();
+		const template = document.createElement('template');
+		template.innerHTML = `
+		    <style>
+				p{
+					display:flex;
+					justify-content: space-around;
+					width: 80%;
+					margin:auto auto 40px auto;
+				}
+				span{
+					padding: 5px;
+					box-sizing: border-box;
+					height: 30px;
+				}
+				.active {
+					border-bottom: 2px solid darkorange;
+				}
+				.container {
+					height: 400px;
+					width: 80%;
+					margin:auto;
+				}
+				.container * {
+                    animation:fadeDiv 0.5s;
+				}
+				.container > *:not(:first-child){
+					display:none;
+				}
+				@keyframes fadeDiv{
+					from{
+						opacity:0;
+					}
+					to{
+						opacity:1;
+					}
+				}
+			</style>
+			<p>
+			</p>
+			<div class="container">
+			</div>
+		`;
+		this.attachShadow({mode:'open'});
+		this.shadowRoot.append(template.content.cloneNode(true));
+	}
+	connectedCallback(){
+		this.shadowRoot.querySelector('p span').className='active';
+		const navs = this.shadowRoot.querySelectorAll('p span');
+		const slides = this.shadowRoot.querySelector('div').children;
+		for (let i=0; i < navs.length; i++) {
+			navs[i].addEventListener('click', (e)=>{
+				const active = this.shadowRoot.querySelector('.active');
+				if (active){
+				active.classList.remove('active');
+				}
+				e.target.classList.add('active');
+				for (let slide of slides){
+					slide.style.display = 'none';
+				}
+				slides[i].style.display = 'block';
+			});
+		}
+	}
+	addTab(data) {
+       if (data instanceof Map) {
+          data.forEach((value, key)=> {
+			const tabHead = document.createElement('span');
+			const tabContent = document.createElement('div');
+			tabHead.innerText = key;
+			tabContent.appendChild(value);
+			this.shadowRoot.querySelector('p').appendChild(tabHead);
+			this.shadowRoot.querySelector('div').appendChild(tabContent);
+		  });
+	   }else {
+		console.log('Data is not a type of Map');
+	   }
+	}
+	nextTab() {
+	    const current = this.shadowRoot.querySelector('.active');
+		current.nextElementSibling.click();
+	}
+}
+//two-column
+class TwoColumn extends HTMLElement{
+	constructor(){
+		super();
+		const template = document.createElement('template');
+		template.innerHTML = `
+		    <style>
+			    .container {
+					display:flex;
+					width:100%;
+					justify-content:space-between;
+				}
+				.container div:first-of-type {
+					flex-basis:70%;
+				}
+			</style>
+			<div class="container">
+			    <div>
+				hi
+				</div>
+				hi
+				<div>
+				</div>
+			</div>
+		`;
+		this.attachShadow({mode:'open'});
+		this.shadowRoot.append(template.content.cloneNode(true));
+	}
+	addContent(content, column) {
+        this.shadowRoot.querySelectorAll('.content div')[column].appendChild(content);
+	}
+}
+class ModalBox extends HTMLElement {
+	constructor() {
+		super();
+		const template = document.createElement('template');
+		template.innerHTML = `
+		    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+		    <style>
+				.background {
+					position:fixed;
+					top:0;
+					right:0;
+					bottom:0;
+					left:0;
+					background-color: rgb(0,0,0); /* Fallback color */
+                    background-color: rgba(0,0,0,0.4);
+					z-index:3;
+				}
+				.modal{
+					position:absolute;
+					background-color:#ffffff;
+					border:1px solid gray;
+					border-radius:5px;
+					width:60%;
+					left:50%;
+					top:50%;
+					transform: translate(-50%, -50%);
+					z-index:4;
+				}
+				span{
+					float:right;
+					margin:10px;
+					color:#303030;
+				}
+			</style>
+			<div class="background">
+			</div>
+			<div class="modal">
+			<span class="material-symbols-rounded">
+close
+</span>
+			<div class="content"></div>
+			</div>
+		`;
+		this.attachShadow({mode:'open'});
+		this.shadowRoot.append(template.content.cloneNode(true));
+	}
+	connectedCallback() {
+		this.shadowRoot.querySelector('span').addEventListener('click', ()=>{
+			this.remove();
+		})
+	}
+	addContent(content) {
+        this.shadowRoot.querySelector('.content').appendChild(content);
+	}
+}
+class itemSimple extends HTMLElement {
+	constructor() {
+		super();
+		const template = document.createElement('template');
+		template.innerHTML = `
+		    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+		    <style>
+				div{
+					width:80%;
+					margin:auto;
+					padding:5px 20px;
+                    border-radius:5px;
+		            border:1px solid lightgray;
+				}
+				p {
+                  font-size:15px;
+				  margin:4px;
+				}
+				span{
+				  font-size:14px;
+				  color:gray;
+				}
+			</style>
+			<div>
+			<p><p>
+			<span></span>
+			</div>
+			`;
+		this.attachShadow({mode:'open'});
+		this.shadowRoot.append(template.content.cloneNode(true));
+	}
+	connectedCallback(){
+		this.shadowRoot.querySelector('p').innerText = this.hasAttribute('data-title') ? this.getAttribute('data-title') : '';
+		this.shadowRoot.querySelector('span').innerText = this.hasAttribute('data-sub-title') ? this.getAttribute('data-sub-title') : '';
+	}
+}
+customElements.define('header-bar', HeaderBar);
+customElements.define('header-bar-2', HeaderBar2);
+customElements.define('side-bar', SideBar);
 customElements.define('empty-message', EmptyMessage);
 customElements.define('grid-menu', GridMenu);
 customElements.define('menu-block', MenuBlock);
@@ -784,3 +1326,9 @@ customElements.define('custom-property', CustomProperty);
 customElements.define('info-box', InfoBox);
 //664
 customElements.define('item-view', ItemView);
+customElements.define('foot-notification', FootNotification);
+customElements.define('rounded-button-2', RoundedButton2);
+customElements.define('horizontal-tabs', Tabs);
+customElements.define('two-columns', TwoColumn);
+customElements.define('modal-box', ModalBox);
+customElements.define('item-simple', itemSimple);
