@@ -1,8 +1,10 @@
-const cacheName = 'shelfopwa-v1';
+const cacheName = 'shelfopwa-v2';
 const appShellFiles = [
     '/index.html',
     '/js/ascript.js',
     '/js/components.js',
+    '/js/functions.js',
+    '/js/routes.js',
     'css/main.css'
 ];
 self.addEventListener('install', (e) =>{
