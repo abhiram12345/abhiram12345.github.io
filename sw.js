@@ -1,9 +1,9 @@
 const cacheName = 'shelfopwa-v1';
 const appShellFiles = [
     '/index.html',
-    '/js/my-script.js',
+    '/js/ascript.js',
     '/js/components.js',
-    'css/mystyle.css'
+    'css/main.css'
 ];
 self.addEventListener('install', (e) =>{
 	e.waitUntil((
